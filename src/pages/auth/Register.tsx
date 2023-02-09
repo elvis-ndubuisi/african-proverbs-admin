@@ -13,10 +13,10 @@ const registerSchema = object({
   username: string().min(1, "Username is required"),
   password: string().min(1, "Password is required"),
   confirmPassword: string(),
-}).refine(
-  (data) => data.password === data.confirmPassword,
-  "Passwords don't match"
-);
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
 
 type RegisterInput = TypeOf<typeof registerSchema>;
 
@@ -32,6 +32,7 @@ export default function Register() {
   function onSubmit(values: RegisterInput) {
     console.log(values);
   }
+  console.log(errors);
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col items-center justify-center my-4">
@@ -39,7 +40,7 @@ export default function Register() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-gray-50/80 flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="username">Username</InputLabel>
@@ -92,7 +93,7 @@ export default function Register() {
         </FormGroup>
         <button
           type="submit"
-          className="px-2 py-3 bg-polar-green-700 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
+          className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
         >
           Submit
         </button>
@@ -102,7 +103,7 @@ export default function Register() {
             Already an Admin?
             <Link
               to="/auth/login"
-              className="underline text-center text-polar-green-800"
+              className="underline text-center text-polar-green-500"
             >
               Login to account
             </Link>

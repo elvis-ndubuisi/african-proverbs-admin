@@ -34,7 +34,7 @@ export default function Login() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-gray-50/80 flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="email">email</InputLabel>
@@ -62,7 +62,7 @@ export default function Login() {
         </FormGroup>
         <button
           type="submit"
-          className="px-2 py-3 bg-polar-green-700 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
+          className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
         >
           Login
         </button>
@@ -72,7 +72,7 @@ export default function Login() {
             Forgot password?
             <Link
               to="/auth/reset-password"
-              className="underline text-center text-polar-green-800"
+              className="underline text-center text-polar-green-500"
             >
               Reset Password
             </Link>

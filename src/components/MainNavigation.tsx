@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const MainNavigation = () => {
   return (
-    <header className="bg-polar-green-700 text-white">
+    <header className="border-b border-gray-50/50">
       <nav className="max-w-screen-2xl mx-auto w-full px-2 py-3 flex items-center justify-between">
         <Title />
 

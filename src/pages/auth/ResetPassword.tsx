@@ -31,7 +31,7 @@ export default function ResetPassword() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-gray-50/80 flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="email">email</InputLabel>

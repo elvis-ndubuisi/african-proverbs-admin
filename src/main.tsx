@@ -7,7 +7,12 @@ import Error from "./pages/Error";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ResetPassword from "./pages/auth/ResetPassword";
-import Index from "./pages/Index";
+import Home from "./pages/Home";
+import Admin from "./pages/dashboard/Admin";
+import AdminLayout from "./layout/AdminLayout";
+import Submitted from "./pages/dashboard/Submitted";
+import Proverbs from "./pages/dashboard/Proverbs";
+import Admins from "./pages/dashboard/Admins";
 
 const router = createBrowserRouter([
   {
@@ -15,18 +20,43 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <Error />,
     children: [
-      { index: true, element: <Index /> },
+      { index: true, element: <Home /> },
       {
-        path: "auth/login",
-        element: <Login />,
+        path: "auth/",
+        children: [
+          { index: true, element: <Login /> },
+          {
+            path: "login/",
+            element: <Login />,
+          },
+          {
+            path: "register/",
+            element: <Register />,
+          },
+          {
+            path: "reset-password/",
+            element: <ResetPassword />,
+          },
+        ],
       },
       {
-        path: "auth/register",
-        element: <Register />,
-      },
-      {
-        path: "auth/reset-password",
-        element: <ResetPassword />,
+        path: "dashboard/",
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: <Admin /> },
+          {
+            path: "proverbs/",
+            element: <Proverbs />,
+          },
+          {
+            path: "submitted/",
+            element: <Submitted />,
+          },
+          {
+            path: "admins",
+            element: <Admins />,
+          },
+        ],
       },
     ],
   },
