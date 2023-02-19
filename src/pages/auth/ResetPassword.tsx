@@ -3,14 +3,10 @@ import FormGroup from "../../components/ui/FormGroup";
 import InputLabel from "../../components/ui/InputLabel";
 import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
-import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const resetPasswordSchema = object({
-  email: string().min(1, "Email is required").email("Not a valid email"),
-});
-
-type ResetPasswordSchema = TypeOf<typeof resetPasswordSchema>;
+import resetPasswordSchema, {
+  ResetPasswordSchema,
+} from "../../schemas/resetPassword.schema";
 
 export default function ResetPassword() {
   const {
@@ -31,7 +27,7 @@ export default function ResetPassword() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-gray-200 flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="email">email</InputLabel>

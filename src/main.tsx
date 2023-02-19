@@ -13,6 +13,7 @@ import AdminLayout from "./layout/AdminLayout";
 import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
 import Admins from "./pages/dashboard/Admins";
+import Status from "./pages/Status";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             element: <Admins />,
           },
         ],
+      },
+      {
+        path: "status",
+        element: <Status />,
       },
     ],
   },

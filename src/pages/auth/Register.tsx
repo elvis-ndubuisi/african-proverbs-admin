@@ -4,23 +4,16 @@ import InputLabel from "../../components/ui/InputLabel";
 import FormFooter from "../../components/ui/FormFooter";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import registerSchema, { RegisterInput } from "../../schemas/register.schema";
+import React from "react";
 import Input from "../../components/ui/Input";
-
-const registerSchema = object({
-  email: string().min(1, "Email is required").email("Not a valid email"),
-  username: string().min(1, "Username is required"),
-  password: string().min(1, "Password is required"),
-  confirmPassword: string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
-
-type RegisterInput = TypeOf<typeof registerSchema>;
+import { registerAdmin } from "../../services/auth.service";
 
 export default function Register() {
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [registerError, setRegisterError] = React.useState(null);
+
   const {
     register,
     formState: { errors },
@@ -30,9 +23,20 @@ export default function Register() {
   });
 
   function onSubmit(values: RegisterInput) {
-    console.log(values);
+    setLoading(true);
+    registerAdmin(values)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        if (error?.response?.status === 409) {
+          console.log(error?.response?.data);
+          return;
+        }
+        console.log("Internal error");
+      });
+    setLoading(false);
   }
-  console.log(errors);
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col items-center justify-center my-4">
@@ -40,7 +44,7 @@ export default function Register() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-gray-200 flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="username">Username</InputLabel>
@@ -93,9 +97,10 @@ export default function Register() {
         </FormGroup>
         <button
           type="submit"
-          className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
+          className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white disabled:cursor-not-allowed"
+          disabled={loading}
         >
-          Submit
+          {loading ? "Loading...." : "Submit"}
         </button>
 
         <FormFooter>

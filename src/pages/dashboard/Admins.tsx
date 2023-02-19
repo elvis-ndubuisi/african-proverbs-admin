@@ -5,7 +5,7 @@ export default function Admins() {
     <section className="max-w-7xl mx-auto mt-3">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-xl uppercase">Admins crud operations</h3>
-        <button className="p-2 bg-white text-black rounded font-semibold text-sm flex items-center justify-center">
+        <button className="p-2 bg-gray-900 text-white hover:bg-gray-600 rounded font-semibold text-sm flex items-center justify-center">
           Fetch Admins
         </button>
       </div>

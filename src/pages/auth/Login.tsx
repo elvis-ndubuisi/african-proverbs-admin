@@ -5,17 +5,13 @@ import FormFooter from "../../components/ui/FormFooter";
 import { Link } from "react-router-dom";
 import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
-import { object, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const loginSchema = object({
-  email: string().min(1, "Email is required").email("Not a valid email"),
-  password: string().min(1, "Password is required"),
-});
-
-type LoginInput = TypeOf<typeof loginSchema>;
+import loginSchema, { LoginInput } from "../../schemas/login.schema";
+import React from "react";
+import { loginAdmin } from "../../services/auth.service";
 
 export default function Login() {
+  const [loading, setLoading] = React.useState<boolean>(false);
   const {
     register,
     formState: { errors },
@@ -25,7 +21,11 @@ export default function Login() {
   });
 
   function onSubmit(values: LoginInput) {
-    console.log(values);
+    loginAdmin(values)
+      .then((response) => {
+        //
+      })
+      .catch((error) => {});
   }
 
   return (
@@ -34,7 +34,7 @@ export default function Login() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg my-3 bg-black flex flex-col gap-3 rounded-md p-4"
+        className="w-full max-w-lg my-3 bg-gray-200 flex flex-col gap-3 rounded-md p-4"
       >
         <FormGroup>
           <InputLabel forAttr="email">email</InputLabel>

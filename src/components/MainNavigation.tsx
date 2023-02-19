@@ -3,21 +3,29 @@ import { Link } from "react-router-dom";
 
 const MainNavigation = () => {
   return (
-    <header className="border-b border-gray-50/50">
+    <header className="border-b border-gray-50">
       <nav className="max-w-screen-2xl mx-auto w-full px-2 py-3 flex items-center justify-between">
         <Title />
 
         <div className="flex items-center justify-between gap-3">
-          <ul className="flex items-center gap-3 text-md font-semibold">
-            <li className="hover:font-bold">
-              <Link to="auth/login">Login</Link>
+          <ul className="flex items-center gap-3">
+            <li>
+              <Link
+                to="auth/login"
+                className="text-base font-medium px-3 py-2 rounded bg-gray-900 text-white"
+              >
+                Login
+              </Link>
             </li>
-            <li className="hover:font-bold">
-              <Link to="auth/register">Register</Link>
+            <li>
+              <Link
+                to="auth/register"
+                className="text-base font-medium px-3 py-2 rounded bg-gray-900 text-white"
+              >
+                Register
+              </Link>
             </li>
           </ul>
-
-          <button>Log Out</button>
         </div>
       </nav>
     </header>

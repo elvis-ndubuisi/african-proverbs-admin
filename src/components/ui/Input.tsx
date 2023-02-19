@@ -1,5 +1,4 @@
 const Input = ({ type: id, placeholder, options }: any) => {
-  console.log(options);
   return (
     <input
       type="type"

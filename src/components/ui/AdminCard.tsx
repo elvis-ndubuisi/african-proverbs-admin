@@ -12,7 +12,7 @@ const AdminCard = () => {
           <span className="text-sm ml-1">admin.email@email.com</span>
         </div>
       </div>
-      <button className="p-1 mt-2 font-bold bg-red-500 text-white rounded ring-1 ring-red-500 hover:bg-transparent hover:text-white transition-all">
+      <button className="p-1 mt-2 font-bold bg-red-500 text-white rounded ring-1 ring-red-500 hover:bg-transparent hover:text-gray-900 transition-all">
         Delete
       </button>
     </div>
