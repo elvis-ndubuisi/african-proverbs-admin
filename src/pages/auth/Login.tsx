@@ -9,9 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema, { LoginInput } from "../../schemas/login.schema";
 import React from "react";
 import { loginAdmin } from "../../services/auth.service";
+import { redirect } from "react-router-dom";
 
 export default function Login() {
   const [loading, setLoading] = React.useState<boolean>(false);
+
   const {
     register,
     formState: { errors },
@@ -24,6 +26,7 @@ export default function Login() {
     loginAdmin(values)
       .then((response) => {
         //
+        redirect("/dashboard");
       })
       .catch((error) => {});
   }

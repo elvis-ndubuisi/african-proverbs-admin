@@ -10,7 +10,10 @@ export async function resetPassword(data: ResetPasswordInput) {
   return await request.post("api/admin/forgotpassword", data);
 }
 
-// Get Admin profile.
+/**
+ *  Gets currently logged in admin information.
+ * @returns Admin information - name, email....
+ */
 export async function profile() {
   return await request.get("api/admin/me", { withCredentials: true });
 }

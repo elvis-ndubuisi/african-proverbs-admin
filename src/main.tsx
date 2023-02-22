@@ -8,17 +8,22 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Home from "./pages/Home";
-import Admin from "./pages/dashboard/Admin";
+import Admin, { adminLoader } from "./pages/dashboard/Admin";
 import AdminLayout from "./layout/AdminLayout";
 import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
 import Admins from "./pages/dashboard/Admins";
 import Status from "./pages/Status";
+import { AuthProvider } from "./context/AuthProvider";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <AuthProvider>
+        <Root />
+      </AuthProvider>
+    ),
     errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
@@ -46,11 +51,11 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Admin /> },
           {
-            path: "proverbs/",
+            path: "proverbs",
             element: <Proverbs />,
           },
           {
-            path: "submitted/",
+            path: "submitted",
             element: <Submitted />,
           },
           {
