@@ -9,10 +9,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema, { LoginInput } from "../../schemas/login.schema";
 import React from "react";
 import { loginAdmin } from "../../services/auth.service";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+type CustomRes = {
+  server: string;
+  desc?: string;
+};
 
 export default function Login() {
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const navigate = useNavigate();
+  const [waiting, setWaiting] = React.useState<boolean>(false);
+  const [hasError, setHasError] = React.useState<boolean>(false);
+  const [errData, setErrData] = React.useState<CustomRes>({ server: "" });
 
   const {
     register,
@@ -22,18 +30,54 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  function onSubmit(values: LoginInput) {
-    loginAdmin(values)
+  async function onSubmit(values: LoginInput) {
+    setWaiting(true);
+    await loginAdmin(values)
       .then((response) => {
-        //
-        redirect("/dashboard");
+        /**
+         * An object with accessToken, and refreshToke field is return;
+         * Cookie params are access-token & refresh-token
+         */
+        navigate("/dashboard");
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setHasError(true);
+        if (
+          error?.response?.status === 403 ||
+          error?.response?.status === 401
+        ) {
+          // 403 forbidden - verify account.
+          // 401 unauthorized - invalid email or password.
+          setErrData({
+            server: error?.response?.data,
+          });
+          return;
+        }
+        setErrData({
+          server: "An error occured",
+        });
+      });
+    setWaiting(false);
   }
+
+  React.useEffect(() => {
+    let timer: any;
+    if (hasError) {
+      timer = setTimeout(() => {
+        setHasError(false);
+        setErrData({ server: "", desc: "" });
+      }, 4000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [hasError]);
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col items-center justify-center my-4">
       <SectionHeading>Login to your account</SectionHeading>
+
+      {hasError && <Response customRes={errData} />}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -66,8 +110,9 @@ export default function Login() {
         <button
           type="submit"
           className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white"
+          disabled={waiting}
         >
-          Login
+          {waiting ? "Submitting...." : "Login"}
         </button>
 
         <FormFooter>
@@ -82,6 +127,15 @@ export default function Login() {
           </p>
         </FormFooter>
       </form>
+    </div>
+  );
+}
+
+function Response({ customRes }: { customRes: CustomRes }): JSX.Element {
+  return (
+    <div className="border-2 border-polar-green-500 bg-polar-green-100 rounded-md px-3 py-1 mt-3 max-w-lg text-center">
+      <p className="font-base mb-1">{customRes.server}</p>
+      {customRes.desc && <p>{customRes.desc}</p>}
     </div>
   );
 }
