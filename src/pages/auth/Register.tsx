@@ -10,9 +10,15 @@ import React from "react";
 import Input from "../../components/ui/Input";
 import { registerAdmin } from "../../services/auth.service";
 
+type CustomRes = {
+  server: string;
+  desc?: string;
+};
+
 export default function Register() {
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [registerError, setRegisterError] = React.useState(null);
+  const [waiting, setWaiting] = React.useState<boolean>(false);
+  const [resView, setResView] = React.useState<boolean>(false);
+  const [resData, setResData] = React.useState<CustomRes>({ server: "" });
 
   const {
     register,
@@ -22,25 +28,50 @@ export default function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  function onSubmit(values: RegisterInput) {
-    setLoading(true);
-    registerAdmin(values)
-      .then((response) => {
-        console.log(response.data);
+  async function onSubmit(values: RegisterInput) {
+    setWaiting(true);
+    await registerAdmin(values)
+      .then(async (response) => {
+        const resp = await response.data;
+        setResData({
+          server: resp,
+          desc: `An verification link was sent to your ${values.email}`,
+        });
+        setResView(true);
       })
       .catch((error) => {
         if (error?.response?.status === 409) {
-          console.log(error?.response?.data);
+          setResData({
+            server: error?.response?.data,
+            desc: "Please proceed to login",
+          });
+          setResView(true);
           return;
         }
-        console.log("Internal error");
+        setResData({ server: "An Error Occured" });
       });
-    setLoading(false);
+    setWaiting(false);
   }
+
+  React.useEffect(() => {
+    let timer: any;
+    if (resView) {
+      timer = setTimeout(() => {
+        setResView(false);
+        setResData({ server: "", desc: "" });
+      }, 5000);
+    }
+
+    () => {
+      clearTimeout(timer);
+    };
+  }, [resView]);
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col items-center justify-center my-4">
       <SectionHeading>Create an account</SectionHeading>
+
+      {resView && <Response viewRes={resData} />}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -98,9 +129,9 @@ export default function Register() {
         <button
           type="submit"
           className="px-2 py-3 bg-polar-green-500 text-white font-bold rounded-lg hover:opacity-80 focus:ring-2 focus:ring-white disabled:cursor-not-allowed"
-          disabled={loading}
+          disabled={waiting}
         >
-          {loading ? "Loading...." : "Submit"}
+          {waiting ? "Loading...." : "Submit"}
         </button>
 
         <FormFooter>
@@ -115,6 +146,15 @@ export default function Register() {
           </p>
         </FormFooter>
       </form>
+    </div>
+  );
+}
+
+function Response({ viewRes }: { viewRes: CustomRes }): JSX.Element {
+  return (
+    <div className="border-2 border-polar-green-500 bg-polar-green-100 rounded-md px-3 py-1 mt-3 max-w-lg">
+      <p className="font-medium">{viewRes.server}</p>
+      {viewRes.desc && <p className="text-base">{viewRes.desc}</p>}
     </div>
   );
 }
