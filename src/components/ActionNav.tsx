@@ -4,7 +4,7 @@ const ActionNav = () => {
   return (
     <nav className="flex items-center gap-3 flex-wrap max-w-5xl mx-auto px-1 border-b border-b-black py-2">
       <NavLink
-        to="/dashboard/"
+        to="/"
         className={({ isActive }) =>
           isActive
             ? "font-semibold hover:text-polar-green-300 text-polar-green-300"

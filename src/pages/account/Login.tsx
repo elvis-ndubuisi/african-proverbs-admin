@@ -10,6 +10,7 @@ import loginSchema, { LoginInput } from "../../schemas/login.schema";
 import React from "react";
 import { loginAdmin } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 type CustomRes = {
   server: string;
@@ -21,6 +22,7 @@ export default function Login() {
   const [waiting, setWaiting] = React.useState<boolean>(false);
   const [hasError, setHasError] = React.useState<boolean>(false);
   const [errData, setErrData] = React.useState<CustomRes>({ server: "" });
+  const auth = useAuth();
 
   const {
     register,
@@ -38,6 +40,7 @@ export default function Login() {
          * An object with accessToken, and refreshToke field is return;
          * Cookie params are access-token & refresh-token
          */
+        if (response.status === 200) auth.setAuth({ authenticated: true });
         navigate("/dashboard");
       })
       .catch((error) => {

@@ -1,6 +1,6 @@
 import { useRouteError } from "react-router-dom";
 
-export default function Error() {
+export default function DashboardError() {
   const error = useRouteError();
   console.error(error);
   return (
@@ -10,7 +10,7 @@ export default function Error() {
       <p>
         <i>{error?.statusText || error?.message}</i>
       </p>
-      <span>fix error typescript type error</span>
+      {/* <span>fix error typescript type error</span> */}
     </div>
   );
 }

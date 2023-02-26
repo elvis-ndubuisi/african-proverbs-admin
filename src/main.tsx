@@ -4,17 +4,16 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./layout/Root";
 import Error from "./pages/Error";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import ResetPassword from "./pages/auth/ResetPassword";
+import DashboardError from "./pages/dashboard/DashboardError";
+import Login from "./pages/account/Login";
+import Register from "./pages/account/Register";
 import Home from "./pages/Home";
-import Admin, { adminLoader } from "./pages/dashboard/Admin";
+import Admin from "./pages/dashboard/Admin";
 import AdminLayout from "./layout/AdminLayout";
 import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
 import Admins from "./pages/dashboard/Admins";
-import Status from "./pages/Status";
-import { AuthProvider } from "./context/AuthProvider";
+import AuthProvider from "./contexts/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -26,28 +25,10 @@ const router = createBrowserRouter([
     ),
     errorElement: <Error />,
     children: [
-      { index: true, element: <Home /> },
       {
-        path: "auth/",
-        children: [
-          { index: true, element: <Login /> },
-          {
-            path: "login/",
-            element: <Login />,
-          },
-          {
-            path: "register/",
-            element: <Register />,
-          },
-          {
-            path: "reset-password/",
-            element: <ResetPassword />,
-          },
-        ],
-      },
-      {
-        path: "dashboard/",
+        path: "/",
         element: <AdminLayout />,
+        errorElement: <DashboardError />,
         children: [
           { index: true, element: <Admin /> },
           {
@@ -65,8 +46,18 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "status",
-        element: <Status />,
+        path: "/account",
+        children: [
+          { index: true, element: <Home /> },
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "register",
+            element: <Register />,
+          },
+        ],
       },
     ],
   },
