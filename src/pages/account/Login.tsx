@@ -122,7 +122,7 @@ export default function Login() {
           <p className="flex items-center gap-2 text-sm">
             Forgot password?
             <Link
-              to="/auth/reset-password"
+              to="/account/reset-password"
               className="underline text-center text-polar-green-500"
             >
               Reset Password

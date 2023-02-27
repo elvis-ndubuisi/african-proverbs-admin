@@ -14,6 +14,7 @@ import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
 import Admins from "./pages/dashboard/Admins";
 import AuthProvider from "./contexts/AuthProvider";
+import ResetPassword from "./pages/account/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "register",
             element: <Register />,
+          },
+          {
+            path: "reset-password",
+            element: <ResetPassword />,
           },
         ],
       },

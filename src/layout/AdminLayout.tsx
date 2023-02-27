@@ -1,12 +1,20 @@
-import MainNavigation from "../components/MainNavigation";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import ActionNav from "../components/ActionNav";
+import useAuth from "../hooks/useAuth";
 
 export default function AdminLayout() {
+  const auth = useAuth();
+
   return (
     <div>
-      <ActionNav />
-      <Outlet />
+      {auth?.auth.authenticated ? (
+        <>
+          <ActionNav />
+          <Outlet />
+        </>
+      ) : (
+        <Navigate to="account/login" replace={true} />
+      )}
     </div>
   );
 }

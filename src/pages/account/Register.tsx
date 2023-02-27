@@ -138,7 +138,7 @@ export default function Register() {
           <p className="flex items-center gap-2 text-sm">
             Already an Admin?
             <Link
-              to="/auth/login"
+              to="/account/login"
               className="underline text-center text-polar-green-500"
             >
               Login to account
