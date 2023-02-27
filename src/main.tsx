@@ -8,7 +8,7 @@ import DashboardError from "./pages/dashboard/DashboardError";
 import Login from "./pages/account/Login";
 import Register from "./pages/account/Register";
 import Home from "./pages/Home";
-import Admin from "./pages/dashboard/Admin";
+import Admin, { loader as profileLoader } from "./pages/dashboard/Admin";
 import AdminLayout from "./layout/AdminLayout";
 import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         errorElement: <DashboardError />,
         children: [
-          { index: true, element: <Admin /> },
+          { index: true, element: <Admin />, loader: profileLoader },
           {
             path: "proverbs",
             element: <Proverbs />,

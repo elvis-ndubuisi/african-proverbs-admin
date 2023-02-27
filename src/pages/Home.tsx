@@ -11,10 +11,10 @@ export default function Home() {
       </hgroup>
       <div className="flex items-center justify-center gap-3 flex-wrap">
         <ButtonNormal>
-          <Link to="/auth/register">Join Admins</Link>
+          <Link to="/account/register">Join Admins</Link>
         </ButtonNormal>
         <ButtonNormalSecondary>
-          <Link to="/auth/login">Login to Account</Link>
+          <Link to="/account/login">Login to Account</Link>
         </ButtonNormalSecondary>
       </div>
     </div>

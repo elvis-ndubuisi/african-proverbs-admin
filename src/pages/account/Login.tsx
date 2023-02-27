@@ -11,6 +11,7 @@ import React from "react";
 import { loginAdmin } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import jwtDecode from "jwt-decode";
 
 type CustomRes = {
   server: string;
@@ -40,8 +41,10 @@ export default function Login() {
          * An object with accessToken, and refreshToke field is return;
          * Cookie params are access-token & refresh-token
          */
-        if (response.status === 200) auth.setAuth({ authenticated: true });
-        navigate("/dashboard");
+        if (response.status === 200) {
+          auth.setAuth(jwtDecode(response.data!.accessToken));
+          navigate("/");
+        }
       })
       .catch((error) => {
         setHasError(true);

@@ -22,9 +22,8 @@ export async function loginAdmin(data: LoginInput) {
 
 // Refresh session
 export function refreshToken() {
-  return request.post(
-    "api/sessions/refresh",
-    { token: "asdjfiasd" },
-    { withCredentials: true, headers: { "Content-Type": "application/json" } }
-  );
+  return request.post("api/sessions/refresh", {
+    withCredentials: true,
+    headers: { "Content-Type": "application/json" },
+  });
 }

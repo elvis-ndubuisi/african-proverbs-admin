@@ -7,13 +7,13 @@ export default function AdminLayout() {
 
   return (
     <div>
-      {auth?.auth.authenticated ? (
+      {auth.auth ? (
         <>
           <ActionNav />
           <Outlet />
         </>
       ) : (
-        <Navigate to="account/login" replace={true} />
+        <Navigate to="account" />
       )}
     </div>
   );

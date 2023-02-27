@@ -1,20 +1,26 @@
 import React from "react";
-import type { Admin } from "../types";
 
-type Auth = {
-  authenticated: boolean;
-  profile?: Admin;
+export type Admin = {
+  _id: string;
+  email: string;
+  createAt: string;
+  iat: number;
+  exp: number;
+  updatedAt: string;
+  role: string;
+  username: string;
 };
 
-type Context = {
-  auth: Auth;
-  setAuth: React.Dispatch<React.SetStateAction<Auth>>;
+type AuthCtx = {
+  auth: Admin;
+  setAuth: React.Dispatch<React.SetStateAction<Admin>>;
 };
 
-export const AuthContext = React.createContext<Context>({} as Context);
+export const AuthContext = React.createContext<AuthCtx>({} as AuthCtx);
 
 export default function AuthProvider({ children }: React.PropsWithChildren) {
-  const [auth, setAuth] = React.useState<Auth>({} as Auth);
+  const [auth, setAuth] = React.useState({} as Admin);
+
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}

@@ -1,7 +1,7 @@
 import request from "./request";
 import { RegisterInput } from "../schemas/register.schema";
 import { ResetPasswordSchema as ResetPasswordInput } from "../schemas/resetPassword.schema";
-import type { Admin } from "../types";
+import type { Admin } from "../contexts/AuthProvider";
 
 export async function registerAdmin(data: RegisterInput) {
   return await request.post("api/admin/register", data);

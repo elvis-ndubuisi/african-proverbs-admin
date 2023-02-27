@@ -38,7 +38,7 @@ export default function Admin() {
   );
 }
 
-export function loader() {
+export async function loader() {
   // TODO: load profile if not avaliable;
-  return defer({ profile: profile() });
+  return defer({ profile: await profile() });
 }
