@@ -11,7 +11,7 @@ const MainNavigation = () => {
           <ul className="flex items-center gap-3">
             <li>
               <Link
-                to="auth/login"
+                to="account/login"
                 className="text-base font-medium px-3 py-2 rounded bg-gray-900 text-white"
               >
                 Login
@@ -19,7 +19,7 @@ const MainNavigation = () => {
             </li>
             <li>
               <Link
-                to="auth/register"
+                to="account/register"
                 className="text-base font-medium px-3 py-2 rounded bg-gray-900 text-white"
               >
                 Register
