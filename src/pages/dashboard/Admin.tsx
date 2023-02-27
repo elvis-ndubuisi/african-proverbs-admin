@@ -2,24 +2,14 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { profile } from "../../services/admin.service";
 import { useLoaderData, defer, Await } from "react-router-dom";
-
-type Admin = {
-  _id: string;
-  username: string;
-  email: string;
-  role: string;
-  createdAt?: string;
-  updatedAt?: string;
-  exp?: string;
-  iat?: string;
-};
+import type { Admin } from "../../contexts/AuthProvider";
 
 export default function Admin() {
-  const profileData = useLoaderData();
+  const profileData = useLoaderData() as { profile: Admin };
 
   return (
     <React.Suspense fallback={<p>Loading</p>}>
-      <Await resolve={profileData} errorElement={<p>loading error</p>}>
+      <Await resolve={profileData.profile} errorElement={<p>loading error</p>}>
         {(profile) => (
           <section className="max-w-7xl mx-auto mt-3">
             <h2 className="text-2xl font-bold text-center">
