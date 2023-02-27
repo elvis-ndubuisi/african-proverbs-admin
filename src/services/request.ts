@@ -8,13 +8,13 @@ const request = axios.create({ baseURL: API, withCredentials: true });
 request.interceptors.response.use(
   (res) => res,
   async (err) => {
-    const originalRequest = err?.config;
-    if (err?.response.status === 403 && !originalRequest._retry) {
+    const preRequest = err?.config;
+    if (err?.response.status === 403 && !preRequest._retry) {
       // Forbidden - access token is expired.
-      originalRequest._retry = true;
+      preRequest._retry = true;
       console.log("refreshing.....");
       await refreshToken();
-      return request(originalRequest);
+      return request(preRequest);
     }
     return Promise.reject(err);
   }
