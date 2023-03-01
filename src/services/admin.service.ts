@@ -1,7 +1,7 @@
 import request from "./request";
 import { RegisterInput } from "../schemas/register.schema";
 import { ResetPasswordSchema as ResetPasswordInput } from "../schemas/resetPassword.schema";
-import type { Admin } from "../contexts/AuthProvider";
+import { Admin } from "../@types";
 
 export async function registerAdmin(data: RegisterInput) {
   return await request.post("api/admin/register", data);
@@ -17,21 +17,17 @@ export async function resetPassword(data: ResetPasswordInput) {
  * N:B Further API request is cancelled if profile details is already in session-storage
  */
 export async function profile() {
-  let response: Admin;
-
   let cached = sessionStorage.getItem("profile");
   if (cached) {
-    response = JSON.parse(cached);
-    return response;
+    return JSON.parse(cached);
   }
   // else
   try {
-    console.debug("Requesting Admin/me");
     let payload = await request.get("api/admin/me", { withCredentials: true });
     sessionStorage.setItem("profile", JSON.stringify(payload.data));
     return payload.data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 }
 

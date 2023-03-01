@@ -1,14 +1,12 @@
 import React from "react";
-import useAuth from "../../hooks/useAuth";
+import { defer, useLoaderData, Await } from "react-router-dom";
 import { profile } from "../../services/admin.service";
-import { useLoaderData, defer, Await } from "react-router-dom";
-import type { Admin } from "../../contexts/AuthProvider";
+import { Admin as A } from "../../@types";
 
 export default function Admin() {
-  const profileData = useLoaderData() as { profile: Admin };
-
+  const profileData = useLoaderData() as { profile: A };
   return (
-    <React.Suspense fallback={<p>Loading</p>}>
+    <React.Suspense fallback={<p>Loading....</p>}>
       <Await resolve={profileData.profile} errorElement={<p>loading error</p>}>
         {(profile) => (
           <section className="max-w-7xl mx-auto mt-3">

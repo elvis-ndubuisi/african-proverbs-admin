@@ -1,6 +1,7 @@
 import { LandingTitle, LandingSubTitle } from "../components/ui/Typography";
 import { ButtonNormal, ButtonNormalSecondary } from "../components/ui/Buttons";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Home() {
   return (

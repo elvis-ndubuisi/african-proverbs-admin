@@ -8,7 +8,7 @@ import DashboardError from "./pages/dashboard/DashboardError";
 import Login from "./pages/account/Login";
 import Register from "./pages/account/Register";
 import Home from "./pages/Home";
-import Admin, { loader as profileLoader } from "./pages/dashboard/Admin";
+import Admin, { loader as l_Profile } from "./pages/dashboard/Admin";
 import AdminLayout from "./layout/AdminLayout";
 import Submitted from "./pages/dashboard/Submitted";
 import Proverbs from "./pages/dashboard/Proverbs";
@@ -18,7 +18,6 @@ import ResetPassword from "./pages/account/ResetPassword";
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: (
       <AuthProvider>
         <Root />
@@ -29,40 +28,21 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <AdminLayout />,
-        errorElement: <DashboardError />,
         children: [
-          { index: true, element: <Admin />, loader: profileLoader },
+          { index: true, element: <Admin />, loader: l_Profile },
           {
-            path: "proverbs",
+            path: "/proverbs",
             element: <Proverbs />,
           },
           {
-            path: "submitted",
-            element: <Submitted />,
-          },
-          {
-            path: "admins",
+            path: "/admins",
             element: <Admins />,
           },
         ],
       },
       {
-        path: "/account",
-        children: [
-          { index: true, element: <Home /> },
-          {
-            path: "login",
-            element: <Login />,
-          },
-          {
-            path: "register",
-            element: <Register />,
-          },
-          {
-            path: "reset-password",
-            element: <ResetPassword />,
-          },
-        ],
+        path: "/account/login",
+        element: <Login />,
       },
     ],
   },

@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema, { LoginInput } from "../../schemas/login.schema";
 import React from "react";
 import { loginAdmin } from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import jwtDecode from "jwt-decode";
 
@@ -19,11 +19,11 @@ type CustomRes = {
 };
 
 export default function Login() {
+  const auth = useAuth();
   const navigate = useNavigate();
   const [waiting, setWaiting] = React.useState<boolean>(false);
   const [hasError, setHasError] = React.useState<boolean>(false);
   const [errData, setErrData] = React.useState<CustomRes>({ server: "" });
-  const auth = useAuth();
 
   const {
     register,
@@ -35,35 +35,24 @@ export default function Login() {
 
   async function onSubmit(values: LoginInput) {
     setWaiting(true);
-    await loginAdmin(values)
-      .then((response) => {
-        /**
-         * An object with accessToken, and refreshToke field is return;
-         * Cookie params are access-token & refresh-token
-         */
-        if (response.status === 200) {
-          auth.setAuth(jwtDecode(response.data!.accessToken));
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        setHasError(true);
-        if (
-          error?.response?.status === 403 ||
-          error?.response?.status === 401
-        ) {
-          // 403 forbidden - verify account.
-          // 401 unauthorized - invalid email or password.
-          setErrData({
-            server: error?.response?.data,
-          });
-          return;
-        }
-        setErrData({
-          server: "An error occured",
-        });
-      });
+    const result = await auth.login(values);
+    console.log(result);
     setWaiting(false);
+    if (result?.response?.status === 403 || result?.response?.status === 401) {
+      setHasError(true);
+      // 403 forbidden - verify account.
+      // 401 unauthorized - invalid email or password.
+      setErrData({
+        server: result?.response?.data,
+      });
+      return;
+    }
+    if (result?.message === "Network Error") {
+      setHasError(true);
+      setErrData({ server: "An error occured" });
+      return;
+    }
+    result?._id && navigate("/");
   }
 
   React.useEffect(() => {
